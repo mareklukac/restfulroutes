@@ -1,0 +1,194 @@
+swagger: "2.0"
+info:
+  description: "Simple system for book management"
+  version: "1.0.0"
+  title: "Book Management"
+  contact:
+    email: "ivan.halupka@ness.com"
+tags:
+- name: "book"
+  description: "Everything about Books"
+
+
+schemes:
+- "http"
+paths:
+  /book/{bookId}:
+    get:
+      tags:
+      - "book"
+      summary: "Find book by ID"
+      description: "Returns a single book"
+      operationId: "getBookById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "bookId"
+        in: "path"
+        description: "ID of book to return"
+        required: true
+        type: "number"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Book"
+        "400":
+          description: "Invalid ID format supplied"
+        "404":
+          description: "Book not found"
+    put:
+      tags:
+      - "book"
+      summary: "Update book by ID"
+      description: "Update an existing book"
+      operationId: "updateBook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "bookId"
+        in: "path"
+        description: "ID of book to return"
+        required: true
+        type: "number"
+      - name: "body" 
+        in: "body"
+        description: "Book object to replace existing book"
+        required: true
+        schema:
+          $ref: "#/definitions/BookResponse"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Book"
+        "400":
+          description: "Invalid book ID supplied"
+        "404":
+          description: "Book not found"
+        "405":
+          description: "New book not valid"
+    delete:
+      tags:
+      - "book"
+      summary: "Deletes a book"
+      description: ""
+      operationId: "deleteBook"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "bookId"
+        in: "path"
+        description: "Book ID to delete"
+        required: true
+        type: "number"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Book"      
+        "400":
+          description: "Invalid ID format supplied"
+        "404":
+          description: "Book not found"
+  /book:
+    post:
+      tags:
+      - "book"
+      summary: "Create new book"
+      operationId: "createBook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body" 
+        in: "body"
+        description: "Book object to be added to book list"
+        required: true
+        schema:
+          $ref: "#/definitions/BookResponse"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Book"
+        "405":
+          description: "New book not valid"
+    get:
+      tags:
+      - "book"
+      summary: "Lists all books in book list"
+      operationId: "listBook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              allOf:
+                - $ref: "#/definitions/Book"
+  /book/tags:
+    get:
+      tags:
+      - "book"
+      summary: "Lists all tags in all books"
+      operationId: "listTags"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+          schema: 
+            type: "array"
+            example: ["adventure", "history"]
+            items:
+              type: "string"
+definitions:
+  BookResponse:
+    type: "object"
+    required:
+    - "title"
+    - "author"
+    - "pages"
+    properties:
+      title:
+        type: "string"
+        example: "Robinson Crusoe"
+      author:
+        type: "string"
+        example: "Daniel Defoe"
+      pages:
+        type: "number"
+        example: 300
+      tags:
+        type: "array"
+        example: ["adventure", "history"]
+        items:
+          type: "string"
+  Book:
+    type: "object"
+    properties: 
+      id:
+        type: "number"
+    allOf:
+    - $ref: "#/definitions/BookResponse"
+    
+
+
+
+          
+       
+          
+
