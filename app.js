@@ -2,6 +2,9 @@ import express from "express";
 import booksRoutes from "./routes/book.js";
 import bookIdRoutes from "./routes/bookId.js";
 import bookTagsRoutes from "./routes/bookTags.js";
+import { sequelize } from "./seqDb.js";
+
+sequelize.sync().then(() => console.log("db is ready"));
 
 const app = express();
 
