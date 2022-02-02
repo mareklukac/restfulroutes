@@ -1,6 +1,5 @@
 import express from "express";
 import joi from "joi";
-// import library from "../library.js";
 import { Book, Tag } from "../seqDb.js";
 
 const router = express.Router();
@@ -12,15 +11,6 @@ const scheme = joi.object({
   tags: joi.array().items(joi.string()).optional(),
 });
 
-// const newObject = (body) => {
-//   const objectToPush = {
-//     ...body,
-//     id: library.length,
-//   };
-//   library.push(objectToPush);
-//   return objectToPush;
-// };
-
 router.get("/", async (req, res) => {
   const books = await Book.findAll({ include: Tag }).catch((error) => {
     console.log(error);
@@ -31,7 +21,6 @@ router.get("/", async (req, res) => {
   }
   console.log(books);
   res.send(books);
-  // res.send(library);
 });
 
 router.post("/", async (req, res) => {
@@ -52,7 +41,6 @@ router.post("/", async (req, res) => {
 
   res.send(book);
   console.log(book);
-  // const object = newObject(req.body);
 });
 
 export default router;
